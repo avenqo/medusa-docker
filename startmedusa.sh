@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -v
 # ---------- Debug Infos--------
 echo "--- Working directory ---"
 pwd
@@ -7,8 +7,19 @@ ls -l
 npm --version
 yarn --version
 
+
+
+DIR="/app/shop/my-medusa-store"
+if [ ! -d "$DIR" ]; then
+    echo "======== Install Medusa and create shop in ${DIR} =========="
+    # Create a new medusa app; simulate expected 'Continue' selection by user inout during installation
+    echo "\r" | medusa new my-medusa-store --db-user postgres --db-pass mysecret --db-host postgres
+    cd ${DIR}
+    medusa seed -f ./data/seed.json
+fi
+
 echo "======== Starting Server =========="
-cd /app/shop/my-medusa-store
+cd ${DIR}
 medusa develop
 
 echo "======== DONE: Starting App  =========="

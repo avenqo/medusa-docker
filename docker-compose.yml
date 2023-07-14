@@ -3,7 +3,7 @@ services:
   medusa-app:
     build:
       dockerfile: Dockerfile
-      context: ./medusa
+      context: .
     container_name: medusa-app
     depends_on:
       postgres:
@@ -39,4 +39,5 @@ services:
 volumes:
   medusa-app_node_modules:
   postgres_data:
+
 
