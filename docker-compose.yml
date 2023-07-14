@@ -1,1 +1,42 @@
+version: "1.0"
+services:
+  medusa-app:
+    build:
+      dockerfile: Dockerfile
+      context: ./medusa
+    container_name: medusa-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./medusa-app:/app/medusa
+      - medusa-app_node_modules:/app/medusa/node_modules
+    ports:
+      - "9001:9000"
+      - "7001:7001"
+    tty: true
+    environment:
+      NODE_ENV: development
+
+  postgres:
+    image: postgres:15.3-alpine3.18
+    container_name: medusa-postgres
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecret
+      POSTGRES_DB: medusa-docker
+
+volumes:
+  medusa-app_node_modules:
+  postgres_data:
 
