@@ -1,20 +1,44 @@
 version: "1.0"
 services:
-  medusa-app:
+  storefront:
     build:
       dockerfile: Dockerfile
-      context: .
-    container_name: medusa-app
+      context: ./frontend
+    container_name: storefront
     depends_on:
       postgres:
+        condition: service_healthy
+      backend:
         condition: service_healthy
     volumes:
       - ./medusa-app:/app/medusa
       - medusa-app_node_modules:/app/medusa/node_modules
     ports:
       - "9001:9000"
-      - "7001:7001"
+      - "8001:8000"
     tty: true
+    environment:
+      NODE_ENV: development
+
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    container_name: svc-admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./medusa-svc-admin:/app/shop
+    ports:
+      - "9001:9000"
+    tty: true
+    healthcheck:
+      test: [ "CMD", "curl", "curl localhost:9000/store/products" ]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     environment:
       NODE_ENV: development
 

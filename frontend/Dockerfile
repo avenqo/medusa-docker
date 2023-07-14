@@ -1,5 +1,5 @@
 FROM node:18.16.1-alpine3.17
-WORKDIR /app/shop
+WORKDIR /app/medusa
 
 # Run the apk update command and install several packages
 RUN apk update && apk add bash && apk add git && apk add curl
@@ -9,9 +9,9 @@ RUN git config --global user.email "git@avenqo.com"
 RUN git config --global user.name "Git Avenqo"
 
 # Install the medusa command line tool 
-RUN yarn global add @medusajs/medusa-cli
+RUN npx create-next-app -e https://github.com/medusajs/nextjs-starter-medusa storefront
 
+COPY .env.local .
 COPY *.sh .
-COPY *.js .
-RUN ["chmod", "+x", "./startmedusa.sh"]
-ENTRYPOINT ["./startmedusa.sh"]
+RUN ["chmod", "+x", "./start-store.sh"]
+ENTRYPOINT ["./start-store.sh"]
