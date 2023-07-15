@@ -10,8 +10,6 @@ services:
         condition: service_healthy
       backend:
         condition: service_healthy
-    volumes:
-      - ./medusa-app:/app/medusa
     ports:
       - "8001:8000"
     tty: true
@@ -26,17 +24,15 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - ./medusa-svc-admin:/app/shop
     ports:
       - "9001:9000"
     tty: true
     healthcheck:
-      test: [ "CMD", "curl", "localhost:9000/store/products" ]
-      interval: 5s
+      test: curl --fail localhost:9000/store/products || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 50s
       timeout: 10s
-      retries: 70
-      start_period: 1m
     environment:
       NODE_ENV: development
 
@@ -51,15 +47,7 @@ services:
       retries: 5
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mysecret
       POSTGRES_DB: medusa-docker
-
-volumes:
-  medusa-app_node_modules:
-  postgres_data:
-
-

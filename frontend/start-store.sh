@@ -1,4 +1,10 @@
-#!/bin/bash
+#!/bin/bash -v
+echo "======== Starting start-store.sh =========="
+echo "--- Working directory ---"
+pwd
+echo "--- Files in PWD ---"
+ls -l
+ls -l /app/medusa/
 
 DIR="/app/medusa/storefront"
 if [ ! -d "$DIR" ]; then
