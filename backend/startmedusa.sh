@@ -1,13 +1,4 @@
 #!/bin/bash
-# ---------- Debug Infos--------
-echo "--- Working directory ---"
-pwd
-echo "--- Files in PWD ---"
-ls -l
-npm --version
-yarn --version
-
-
 DIR="/app/medusa-svc/store"
 if [ ! -d "$DIR" ]; then
     echo "======== Install Medusa and create shop in ${DIR} =========="
