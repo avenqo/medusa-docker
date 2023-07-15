@@ -12,9 +12,7 @@ services:
         condition: service_healthy
     volumes:
       - ./medusa-app:/app/medusa
-      - medusa-app_node_modules:/app/medusa/node_modules
     ports:
-      - "9001:9000"
       - "8001:8000"
     tty: true
     environment:
@@ -34,11 +32,11 @@ services:
       - "9001:9000"
     tty: true
     healthcheck:
-      test: [ "CMD", "curl", "curl localhost:9000/store/products" ]
-      interval: 1m30s
+      test: [ "CMD", "curl", "localhost:9000/store/products" ]
+      interval: 5s
       timeout: 10s
-      retries: 3
-      start_period: 40s
+      retries: 70
+      start_period: 1m
     environment:
       NODE_ENV: development
 

@@ -8,7 +8,7 @@ npm --version
 yarn --version
 
 
-DIR="/app/shop/store"
+DIR="/app/medusa-svc/store"
 if [ ! -d "$DIR" ]; then
     echo "======== Install Medusa and create shop in ${DIR} =========="
     # Create a new medusa app; simulate expected 'Continue' selection by user inout during installation
