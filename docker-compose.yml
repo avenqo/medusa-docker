@@ -13,6 +13,8 @@ services:
     tty: true
     environment:
       NODE_ENV: development
+    networks:
+      - medusa-net
 
   backend:
     build:
@@ -27,6 +29,8 @@ services:
     tty: true
     environment:
       NODE_ENV: development
+    networks:
+      - medusa-net
 
   postgres:
     image: postgres:15.3-alpine3.18
@@ -43,3 +47,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mysecret
       POSTGRES_DB: medusa-docker
+    networks:
+      - medusa-net
+networks:
+  medusa-net:
