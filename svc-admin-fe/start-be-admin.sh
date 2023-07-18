@@ -16,6 +16,3 @@ fi
 echo "======== Starting Server =========="
 cd ${DIR}
 medusa develop
-
-# just in case that somethings fails -> start interactive session by "docker exec -it medusa-app /bin/bash "
-while true; do sleep 1; done
